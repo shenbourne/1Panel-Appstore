@@ -1,0 +1,39 @@
+services:
+  go-proxy:
+    image: dqzboy/registry:latest
+    container_name: "${CONTAINER_NAME}"
+    restart: always
+    networks:
+      - 1panel-network
+    ports:
+      - "${PANEL_APP_PORT_REGISTRY}:5000"
+    environment:
+      OTEL_TRACES_EXPORTER: none
+      GO_PROXY_ADMIN_TOKEN: "${GO_PROXY_ADMIN_TOKEN}"
+    volumes:
+      - ./config/go-proxy:/app/config.d
+      - ./data/go-proxy-cache:/app/cache
+    labels:
+      createdBy: Apps
+  hubcmd-ui:
+    image: dqzboy/hubcmd-ui:latest
+    container_name: "${CONTAINER_NAME}-hubcmd-ui"
+    restart: always
+    networks:
+      - 1panel-network
+    ports:
+      - "${PANEL_APP_PORT_HTTP}:3000"
+    environment:
+      GO_PROXY_ADMIN_URL: http://go-proxy:5001
+      GO_PROXY_ADMIN_TOKEN: "${GO_PROXY_ADMIN_TOKEN}"
+      SESSION_SECRET: "${SESSION_SECRET}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/hubcmd-ui:/app/data
+    depends_on:
+      - go-proxy
+    labels:
+      createdBy: Apps
+networks:
+  1panel-network:
+    external: true

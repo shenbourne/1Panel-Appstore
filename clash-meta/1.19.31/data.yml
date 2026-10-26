@@ -1,0 +1,108 @@
+additionalProperties:
+  formFields:
+    - default: ""
+      envKey: DEFAULT_BACKEND_URL
+      labelEn: "Dashboard Default Backend"
+      labelZh: "面板默认后端地址"
+      label:
+        en: "Dashboard Default Backend"
+        es-es: "Backend predeterminado del panel"
+        ja: "ダッシュボードの既定バックエンド"
+        ms: "Backend lalai papan pemuka"
+        pt-br: "Backend padrao do painel"
+        ru: "Бэкенд панели по умолчанию"
+        ko: "대시보드 기본 백엔드"
+        zh-Hant: "面板預設後端位址"
+        zh: "面板默认后端地址"
+        tr: "Panel varsayilan arka ucu"
+      required: false
+      type: text
+    - default: ""
+      envKey: CLASH_SECRET
+      labelEn: "API Secret"
+      labelZh: "API 密钥"
+      label:
+        en: "API Secret"
+        es-es: "Secreto de la API"
+        ja: "API シークレット"
+        ms: "Rahsia API"
+        pt-br: "Segredo da API"
+        ru: "Секрет API"
+        ko: "API 시크릿"
+        zh-Hant: "API 金鑰"
+        zh: "API 密钥"
+        tr: "API Sirri"
+      random: true
+      required: true
+      type: password
+    - default: UTC
+      envKey: TZ
+      labelEn: Timezone
+      labelZh: "时区"
+      label:
+        en: Timezone
+        es-es: "Zona horaria"
+        ja: "タイムゾーン"
+        ms: "Zon masa"
+        pt-br: "Fuso horario"
+        ru: "Часовой пояс"
+        ko: "시간대"
+        zh-Hant: "時區"
+        zh: "时区"
+        tr: "Saat dilimi"
+      required: true
+      type: text
+    - default: 9090
+      envKey: PANEL_APP_PORT_API
+      labelEn: "API Port"
+      labelZh: "API 端口"
+      label:
+        en: "API Port"
+        es-es: "Puerto de la API"
+        ja: "APIポート"
+        ms: "Port API"
+        pt-br: "Porta da API"
+        ru: "Порт API"
+        ko: "API 포트"
+        zh-Hant: "API 埠"
+        zh: "API 端口"
+        tr: "API Baglanti Noktasi"
+      required: true
+      rule: paramPort
+      type: number
+    - default: 7890
+      envKey: PANEL_APP_PORT_MIXED
+      labelEn: "Mixed Port"
+      labelZh: "混合端口"
+      label:
+        en: "Mixed Port"
+        es-es: "Puerto mixto"
+        ja: "混合ポート"
+        ms: "Port campuran"
+        pt-br: "Porta mista"
+        ru: "Смешанный порт"
+        ko: "혼합 포트"
+        zh-Hant: "混合埠"
+        zh: "混合端口"
+        tr: "Karma Baglanti Noktasi"
+      required: true
+      rule: paramPort
+      type: number
+    - default: 8080
+      envKey: PANEL_APP_PORT_HTTP
+      labelEn: "Web UI Port"
+      labelZh: "Web UI 端口"
+      label:
+        en: "Web UI Port"
+        es-es: "Puerto web"
+        ja: "Web UIポート"
+        ms: "Port Web UI"
+        pt-br: "Porta da Web UI"
+        ru: "Порт веб-интерфейса"
+        ko: "웹 UI 포트"
+        zh-Hant: "Web UI 埠"
+        zh: "Web UI 端口"
+        tr: "Web UI Bağlantı Noktası"
+      required: true
+      rule: paramPort
+      type: number

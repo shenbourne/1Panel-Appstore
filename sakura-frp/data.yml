@@ -1,0 +1,23 @@
+name: Sakura Frp
+tags:
+  - 实用工具
+title: Sakura Frp 为你提供优质的内网穿透服务
+description:
+  en: Sakura FRP provides premium intranet penetration services.
+  zh: Sakura Frp 为你提供优质的内网穿透服务
+additionalProperties:
+  key: sakura-frp
+  name: Sakura Frp
+  tags:
+    - Tool
+  shortDescZh: Sakura Frp 为你提供优质的内网穿透服务
+  shortDescEn: Sakura FRP provides premium intranet penetration services.
+  type: website
+  crossVersionUpdate: true
+  limit: 0
+  website: www.natfrp.com
+  github: https://github.com/orgs/natfrp/packages/container/package/launcher
+  document: https://www.natfrp.com/tunnel/download
+  architectures:
+    - amd64
+    - arm64

@@ -1,0 +1,36 @@
+services:
+  mihomo:
+    image: metacubex/mihomo:v1.19.31
+    container_name: "${CONTAINER_NAME}"
+    restart: always
+    networks:
+      - 1panel-network
+    ports:
+      - "${PANEL_APP_PORT_API}:9090"
+      - "${PANEL_APP_PORT_MIXED}:7890"
+    environment:
+      CLASH_OVERRIDE_EXTERNAL_CONTROLLER: 0.0.0.0:9090
+      CLASH_OVERRIDE_SECRET: "${CLASH_SECRET}"
+      TZ: "${TZ}"
+    volumes:
+      - ./data:/root/.config/mihomo
+    labels:
+      createdBy: Apps
+  web:
+    image: ghcr.io/metacubex/metacubexd:v1.273.1
+    container_name: "${CONTAINER_NAME}-web"
+    restart: always
+    networks:
+      - 1panel-network
+    ports:
+      - "${PANEL_APP_PORT_HTTP}:80"
+    environment:
+      DEFAULT_BACKEND_URL: "${DEFAULT_BACKEND_URL}"
+      TZ: "${TZ}"
+    depends_on:
+      - mihomo
+    labels:
+      createdBy: Apps
+networks:
+  1panel-network:
+    external: true

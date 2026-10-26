@@ -1,0 +1,5 @@
+/_specs/
+/.upstream-1panel/
+/*.zip
+/.test-*/
+__pycache__/

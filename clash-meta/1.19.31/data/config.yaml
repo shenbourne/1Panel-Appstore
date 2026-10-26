@@ -1,0 +1,31 @@
+# Clash Meta (mihomo) 基础配置
+# 本文件是安装时的占位配置，仅提供 DIRECT 直连，不含任何节点。
+# 请在此处填写你自己的 proxies / proxy-groups / rules。
+#
+# API 密钥不写在本文件里：它由容器环境变量 CLASH_OVERRIDE_SECRET 注入，
+# 对应的值就是安装时填写的 “API 密钥”。
+
+mixed-port: 7890
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: info
+ipv6: false
+
+# 容器内监听所有网卡，便于面板容器通过 1panel-network 访问；
+# 对外仅暴露 1Panel 安装时映射的主机端口，并由 API 密钥保护。
+external-controller: 0.0.0.0:9090
+
+# 由于 ./data 挂载覆盖了镜像内 /root/.config/mihomo，
+# 镜像自带的 geodata 不再可见，这里显式指向官方数据源，
+# 首次启动时 mihomo 会自动下载缺失的 geoip.dat / geosite.dat / geoip.metadb。
+geox-url:
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
+  mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
+
+proxies: []
+proxy-groups: []
+
+rules:
+  - MATCH,DIRECT

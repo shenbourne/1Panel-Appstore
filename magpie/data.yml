@@ -1,0 +1,21 @@
+name: Magpie
+tags:
+  - AI
+title: "AI 模型网关与订阅管理"
+description: "统一管理 AI 提供商、订阅登录、模型路由和网关密钥，提供浏览器管理界面。"
+additionalProperties:
+  key: magpie
+  name: Magpie
+  tags:
+    - AI
+  shortDescZh: "统一管理 AI 模型、订阅与网关"
+  shortDescEn: "Manage AI models, subscriptions and gateway keys"
+  type: tool
+  crossVersionUpdate: true
+  limit: 0
+  architectures:
+    - amd64
+    - arm64
+  website: https://usemagpie.ai
+  github: https://github.com/yetone/magpie
+  document: https://usemagpie.ai/docs/docker

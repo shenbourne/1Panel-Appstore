@@ -1,0 +1,11 @@
+services:
+  launcher:
+    restart: always
+    pull_policy: always
+    container_name: ${CONTAINER_NAME}
+    image: natfrp.com/launcher
+    ports:
+      - ${PANEL_APP_PORT_HTTP}:7102
+    network_mode: host
+    labels:
+      createdBy: Apps
