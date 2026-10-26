@@ -36,4 +36,4 @@ jobs:
                   if path.suffix in (".yml", ".yaml"):
                       yaml.safe_load(path.read_text())
           PY
-      - run: bash -n scripts/sync.sh && bash tests/sync.sh
+      - run: bash -n scripts/sync.sh scripts/install.sh && bash tests/sync.sh

@@ -1,5 +1,6 @@
 /_specs/
 /.upstream-1panel/
+/.reference-appstore/
 /*.zip
 /.test-*/
 __pycache__/

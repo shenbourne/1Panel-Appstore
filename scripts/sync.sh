@@ -9,7 +9,7 @@ STATE_DIR="${STATE_DIR:-/opt/1panel-third-party/shenbourne}"
 SOURCE_DIR="${SOURCE_DIR:-}"
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
-for tool in git flock cp mkdir mktemp realpath diff find date; do
+for tool in flock cp mkdir mktemp realpath diff find date; do
     command -v "$tool" >/dev/null || die "Missing dependency: $tool"
 done
 [[ "$LOCAL_APPS_DIR" = /* && "$STATE_DIR" = /* ]] || die "Use absolute paths"
@@ -22,6 +22,7 @@ exec 9>"$STATE_DIR/sync.lock"
 flock -n 9 || die "Another sync is running"
 
 if [[ -z "$SOURCE_DIR" ]]; then
+    command -v git >/dev/null || die "Missing dependency: git (or set SOURCE_DIR)"
     if [[ ! -d "$STATE_DIR/repository/.git" ]]; then
         git clone --depth 1 --branch "$BRANCH" -- "$REPO_URL" "$STATE_DIR/repository"
     else

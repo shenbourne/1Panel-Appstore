@@ -25,4 +25,26 @@ if bash "$root/scripts/sync.sh" > "$scratch/rejected.log" 2>&1; then
 fi
 grep -q 'Target is a symlink' "$scratch/rejected.log"
 test ! -e "$LOCAL_APPS_DIR/clash-meta"
-echo "PASS: sync, backup, preservation, repeat execution and symlink rejection"
+
+# Exercise the downloader without network access by replacing curl with a fixture.
+mkdir -p "$scratch/archive/1panel-appstore-main" "$scratch/bin"
+cp -a "$root/." "$scratch/archive/1panel-appstore-main/"
+tar -czf "$scratch/catalog.tar.gz" -C "$scratch/archive" 1panel-appstore-main
+cat > "$scratch/bin/curl" <<'SH'
+#!/usr/bin/env bash
+set -e
+while [[ $# -gt 0 ]]; do
+    if [[ "$1" = --output ]]; then
+        cp "$TEST_ARCHIVE" "$2"
+        exit
+    fi
+    shift
+done
+exit 1
+SH
+chmod +x "$scratch/bin/curl"
+PATH="$scratch/bin:$PATH" TEST_ARCHIVE="$scratch/catalog.tar.gz" \
+    STORE_DIR="$scratch/installer-state" LOCAL_APPS_DIR="$scratch/installer-local" \
+    bash "$root/scripts/install.sh"
+cmp "$root/magpie/data.yml" "$scratch/installer-local/magpie/data.yml"
+echo "PASS: download, sync, backup, preservation, repeat execution and symlink rejection"

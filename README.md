@@ -18,7 +18,7 @@
 
 ## 环境与路径
 
-- Linux、Bash、Git、`flock`（通常由 util-linux 提供）及 GNU coreutils、diffutils、findutils。
+- Linux、Bash、curl、tar、`flock`（通常由 util-linux 提供）及 GNU coreutils、diffutils、findutils。
 - 已安装 1Panel 和 Docker，服务器能访问 GitHub 以及各应用的镜像仓库。
 - 默认模板目录：`/opt/1panel/resource/apps/local`。自定义安装位置时，请修改下方的 `LOCAL_APPS_DIR`，以当前面板实际目录为准。
 - 使用有权写入模板目录的账户执行；计划任务通常使用 root。
@@ -28,27 +28,34 @@
 
 ## 首次安装
 
-在服务器终端执行以下脚本。重复执行时会更新已有仓库，并同步本仓库列出的应用。
+在服务器终端执行以下脚本。它下载当前 `main` 分支的源码压缩包，验证压缩包结构后同步应用。下载最多重试，并依次尝试 GitHub 的源码下载入口，避免因为一次 `git clone` TLS 中断而直接退出。
 
 ```bash
-set -e
-STORE_DIR=/opt/1panel-third-party/shenbourne
-REPO_URL=https://github.com/shenbourne/1panel-appstore.git
-mkdir -p "$STORE_DIR"
-if [ ! -d "$STORE_DIR/bootstrap/.git" ]; then
-  git clone --depth 1 --branch main "$REPO_URL" "$STORE_DIR/bootstrap"
-else
-  test "$(git -C "$STORE_DIR/bootstrap" remote get-url origin)" = "$REPO_URL"
-  git -C "$STORE_DIR/bootstrap" fetch --depth 1 origin main
-  git -C "$STORE_DIR/bootstrap" checkout --detach FETCH_HEAD
-fi
-LOCAL_APPS_DIR=/opt/1panel/resource/apps/local \
-STATE_DIR="$STORE_DIR" \
-SOURCE_DIR="$STORE_DIR/bootstrap" \
-bash "$STORE_DIR/bootstrap/scripts/sync.sh"
+curl --fail --location --http1.1 --connect-timeout 20 --max-time 180 \
+  --proto '=https' --proto-redir '=https' \
+  https://raw.githubusercontent.com/shenbourne/1panel-appstore/main/scripts/install.sh |
+  STORE_DIR=/opt/1panel-third-party/shenbourne \
+  LOCAL_APPS_DIR=/opt/1panel/resource/apps/local \
+  bash
 ```
 
 执行成功后，在 1Panel 的「应用商店 → 本地应用」中执行刷新或同步本地应用操作，再选择应用安装；不同版本的按钮名称可能不同。脚本只同步模板文件，不调用面板 API，不自动安装或升级容器。定时同步后如界面仍显示旧内容，请再次刷新本地应用。
+
+如果服务器直连 GitHub 不稳定，可参考 [arch3rPro/1Panel-Appstore](https://github.com/arch3rPro/1Panel-Appstore) 的做法，在上面的 `bash` 前添加代理变量：
+
+```bash
+DOWNLOAD_PROXY=https://ghfast.top/ bash
+```
+
+即完整命令最后三行改为：
+
+```bash
+  STORE_DIR=/opt/1panel-third-party/shenbourne \
+  LOCAL_APPS_DIR=/opt/1panel/resource/apps/local \
+  DOWNLOAD_PROXY=https://ghfast.top/ bash
+```
+
+`ghfast.top` 是第三方服务，不由本项目或 GitHub 运营；是否使用由管理员自行决定。脚本仍要求 HTTPS 并保留证书校验，不建议用 `GIT_SSL_NO_VERIFY` 或 `curl -k` 绕过 TLS 验证。注意：上述代理只接管源码压缩包下载，最前面的 `raw.githubusercontent.com` 启动脚本仍需能访问；如果该域名也不可达，可先手动下载 `scripts/install.sh` 后执行。
 
 ## 添加到 1Panel 计划任务
 
@@ -59,9 +66,9 @@ bash "$STORE_DIR/bootstrap/scripts/sync.sh"
 5. 保存并手动执行一次，在任务报告中确认出现 `Templates ready`，且没有 `ERROR` 或 Git 错误。
 6. 回到「应用商店 → 本地应用」刷新列表，确认五个应用可以显示。
 
-保留完整脚本可以让每次任务执行时连同步脚本自身一起更新。首次执行也可以直接在计划任务中完成。不要同时创建多条相同任务；同步阶段有文件锁，但整个仓库更新过程仍应避免并发。
+保留完整脚本可以让每次任务执行时连同步脚本自身一起更新。首次执行也可以直接在计划任务中完成。下载和同步阶段均有文件锁，不要同时创建多条相同任务。
 
-如果服务器没有 Git，请先通过系统包管理器安装 Git；缺少 `flock`、`diff` 或 `find` 时，安装上文列出的对应依赖。
+如果服务器缺少 curl、tar、`flock`、`diff` 或 `find`，请通过系统包管理器安装上文列出的对应依赖。
 
 ## 同步行为与备份
 
@@ -84,6 +91,7 @@ bash "$STORE_DIR/bootstrap/scripts/sync.sh"
 ```text
 apps.txt
 scripts/sync.sh
+scripts/install.sh
 应用标识/
   data.yml
   logo.png
@@ -98,4 +106,4 @@ scripts/sync.sh
 
 ## 验证范围
 
-GitHub Actions 检查 YAML、目录结构和脚本，并在 Linux 临时目录验证同步、备份、重复执行、保留其他商店及拒绝符号链接。也可在 Linux 上手动运行 `bash tests/sync.sh`。真实 1Panel 导入、各应用容器启动和计划任务执行仍需在服务器上确认。
+GitHub Actions 检查 YAML、目录结构和脚本，并在 Linux 临时目录验证下载器、同步、备份、重复执行、保留其他商店及拒绝符号链接。也可在 Linux 上手动运行 `bash tests/sync.sh`。真实 1Panel 导入、各应用容器启动和计划任务执行仍需在服务器上确认。
