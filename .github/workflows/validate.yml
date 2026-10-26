@@ -13,27 +13,9 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install PyYAML==6.0.3
-      - name: Validate YAML and catalog
+      - name: Validate 1Panel application packages
+        run: python scripts/validate.py
+      - name: Verify scripts and import behavior
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import yaml
-          root = Path(".")
-          for app in root.joinpath("apps.txt").read_text().splitlines():
-              base = root / app
-              for name in ("data.yml", "logo.png", "README.md", "README_en.md"):
-                  assert (base / name).is_file(), f"{app}/{name}"
-              meta = yaml.safe_load((base / "data.yml").read_text())
-              assert meta["additionalProperties"]["key"] == app
-              versions = [p for p in base.iterdir() if p.is_dir()]
-              assert versions, app
-              for version in versions:
-                  fields = yaml.safe_load((version / "data.yml").read_text())
-                  assert isinstance(fields["additionalProperties"]["formFields"], list)
-                  compose = yaml.safe_load((version / "docker-compose.yml").read_text())
-                  assert compose["services"], version
-              for path in base.rglob("*"):
-                  if path.suffix in (".yml", ".yaml"):
-                      yaml.safe_load(path.read_text())
-          PY
-      - run: bash -n scripts/sync.sh scripts/install.sh && bash tests/sync.sh
+          bash -n scripts/sync.sh scripts/install.sh scripts/bootstrap.sh tests/sync.sh
+          bash tests/sync.sh

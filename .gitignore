@@ -1,6 +1,11 @@
 /_specs/
 /.upstream-1panel/
 /.reference-appstore/
+/.official-appstore/
+/.official-spec/
+/.official-wiki/
+/.okxlin-appstore/
+/.okxlin-spec/
 /*.zip
 /.test-*/
 __pycache__/

@@ -35,20 +35,22 @@ if [[ -z "$SOURCE_DIR" ]]; then
 fi
 SOURCE_DIR="$(realpath "$SOURCE_DIR")"
 [[ -f "$SOURCE_DIR/apps.txt" ]] || die "Missing apps.txt"
+APP_SOURCE="$SOURCE_DIR/apps"
+[[ -d "$APP_SOURCE" && ! -L "$APP_SOURCE" ]] || die "Missing or linked apps directory"
 apps=()
 while IFS= read -r app || [[ -n "$app" ]]; do
     [[ -z "$app" || "$app" = \#* ]] && continue
     [[ "$app" =~ ^[a-z0-9][a-z0-9-]*$ ]] || die "Invalid app key: $app"
-    [[ -d "$SOURCE_DIR/$app" && ! -L "$SOURCE_DIR/$app" ]] || die "Invalid source: $app"
+    [[ -d "$APP_SOURCE/$app" && ! -L "$APP_SOURCE/$app" ]] || die "Invalid source: $app"
     [[ ! -L "$LOCAL_APPS_DIR/$app" ]] || die "Target is a symlink: $app"
     [[ ! -e "$LOCAL_APPS_DIR/$app" || -d "$LOCAL_APPS_DIR/$app" ]] || die "Target is not a directory: $app"
     for required in data.yml logo.png README.md; do
-        [[ -f "$SOURCE_DIR/$app/$required" ]] || die "Missing $app/$required"
+        [[ -f "$APP_SOURCE/$app/$required" ]] || die "Missing $app/$required"
     done
     # Templates must not link to files outside the downloaded repository.
-    [[ -z "$(find "$SOURCE_DIR/$app" -type l -print -quit)" ]] || die "Source contains symlinks: $app"
+    [[ -z "$(find "$APP_SOURCE/$app" -type l -print -quit)" ]] || die "Source contains symlinks: $app"
     found_version=false
-    for version in "$SOURCE_DIR/$app"/*/; do
+    for version in "$APP_SOURCE/$app"/*/; do
         [[ -d "$version" ]] || continue
         [[ -f "${version}data.yml" && -f "${version}docker-compose.yml" ]] ||
             die "Incomplete version: $version"
@@ -60,7 +62,7 @@ done < "$SOURCE_DIR/apps.txt"
 [[ ${#apps[@]} -gt 0 ]] || die "Empty catalog"
 backup=""
 for app in "${apps[@]}"; do
-    if [[ -d "$LOCAL_APPS_DIR/$app" ]] && diff -qr "$SOURCE_DIR/$app" "$LOCAL_APPS_DIR/$app" >/dev/null; then
+    if [[ -d "$LOCAL_APPS_DIR/$app" ]] && diff -qr "$APP_SOURCE/$app" "$LOCAL_APPS_DIR/$app" >/dev/null; then
         printf 'Unchanged: %s\n' "$app"
         continue
     fi
@@ -73,7 +75,7 @@ for app in "${apps[@]}"; do
     fi
     # Merge template files; never delete other stores or installed application data.
     mkdir -p "$LOCAL_APPS_DIR/$app"
-    cp -a -- "$SOURCE_DIR/$app/." "$LOCAL_APPS_DIR/$app/"
+    cp -a -- "$APP_SOURCE/$app/." "$LOCAL_APPS_DIR/$app/"
     printf 'Synced: %s\n' "$app"
 done
 [[ -z "$backup" ]] || printf 'Backup: %s\n' "$backup"

@@ -1,0 +1,63 @@
+additionalProperties:
+  formFields:
+  - default: 3430
+    envKey: PANEL_APP_PORT_HTTP
+    required: true
+    type: number
+    labelEn: Web UI port
+    labelZh: 管理界面端口
+    edit: true
+    rule: paramPort
+    label:
+      en: Web UI port
+      zh: 管理界面端口
+  - default: 3425
+    envKey: PANEL_APP_PORT_GATEWAY
+    required: true
+    type: number
+    labelEn: Gateway port
+    labelZh: API 网关端口
+    edit: true
+    rule: paramPort
+    label:
+      en: Gateway port
+      zh: API 网关端口
+  - default: ''
+    envKey: MAGPIE_WEB_KEY
+    required: true
+    type: password
+    labelEn: Management key (16+ characters)
+    labelZh: 管理密钥（至少 16 位）
+    description:
+      en: Use at least 16 letters, digits or - . _ ~. This is not an API gateway key.
+      zh: 至少 16 位，仅使用英文字母、数字或 - . _ ~；API 调用需要另建网关密钥。
+    edit: true
+    label:
+      en: Management key (16+ characters)
+      zh: 管理密钥（至少 16 位）
+  - default: 0.0.0.0
+    envKey: MAGPIE_BIND_IP
+    required: true
+    type: text
+    labelEn: Host bind IPv4 address
+    labelZh: 主机监听 IPv4 地址
+    description:
+      en: 0.0.0.0 allows LAN access; 127.0.0.1 allows host access only.
+      zh: 0.0.0.0 允许局域网访问；127.0.0.1 仅允许主机访问。
+    edit: true
+    label:
+      en: Host bind IPv4 address
+      zh: 主机监听 IPv4 地址
+  - default: ''
+    envKey: MAGPIE_PUBLIC_URL
+    required: false
+    type: text
+    labelEn: Public gateway URL (optional)
+    labelZh: 网关对外地址（可选）
+    description:
+      en: For example http://192.168.1.20:3425 or your HTTPS reverse proxy URL.
+      zh: 例如 http://192.168.1.20:3425，或 HTTPS 反向代理地址。
+    edit: true
+    label:
+      en: Public gateway URL (optional)
+      zh: 网关对外地址（可选）

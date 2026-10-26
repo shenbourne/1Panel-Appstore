@@ -1,0 +1,38 @@
+name: Clash Meta
+tags:
+- Tool
+title: 基于 mihomo 内核的代理服务，内置 metacubexd 控制面板。
+description: 基于 mihomo 内核的规则代理服务，内置 metacubexd 控制面板。
+additionalProperties:
+  key: clash-meta
+  name: Clash Meta
+  tags:
+  - Tool
+  shortDescZh: 基于 mihomo 内核的规则代理服务，内置 metacubexd 控制面板。
+  shortDescEn: A rule-based tunnel powered by the mihomo kernel, with the built-in
+    metacubexd dashboard.
+  description:
+    en: A rule-based tunnel powered by the mihomo kernel, with the built-in metacubexd
+      dashboard.
+    es-es: Un tunel basado en reglas impulsado por el kernel mihomo, con el panel
+      metacubexd integrado.
+    ja: mihomo カーネルを採用したルールベースのトンネル。metacubexd ダッシュボードを内蔵。
+    ms: Tunnel berasaskan peraturan yang dikuasakan oleh kernel mihomo, dengan papan
+      pemuka metacubexd terbina dalam.
+    pt-br: Um tunel baseado em regras com o kernel mihomo, com o painel metacubexd
+      integrado.
+    ru: Туннель на основе правил на ядре mihomo со встроенной панелью metacubexd.
+    ko: mihomo 커널 기반의 규칙 기반 터널이며 metacubexd 대시보드가 내장되어 있습니다.
+    zh-Hant: 基於 mihomo 核心的規則代理服務，內建 metacubexd 控制面板。
+    zh: 基于 mihomo 内核的规则代理服务，内置 metacubexd 控制面板。
+    tr: mihomo cekirdegi uzerinde calisan kural tabanli bir tunel; dahili metacubexd
+      panosu ile.
+  type: tool
+  crossVersionUpdate: true
+  limit: 0
+  architectures:
+  - amd64
+  - arm64
+  website: https://wiki.metacubex.one
+  github: https://github.com/MetaCubeX/mihomo
+  document: https://wiki.metacubex.one

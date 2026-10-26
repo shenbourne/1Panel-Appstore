@@ -1,0 +1,23 @@
+name: Shenbourne Appstore
+title: 1Panel 第三方应用商店
+additionalProperties:
+  tags:
+    - key: AI
+      name: 人工智能
+      sort: 5
+      locales:
+        en: AI
+        zh: 人工智能
+    - key: Tool
+      name: 实用工具
+      sort: 70
+      locales:
+        en: Utilities
+        zh: 实用工具
+    - key: Local
+      name: 本地
+      sort: 9999
+      locales:
+        en: Local
+        zh: 本地
+  version: v1.0.0

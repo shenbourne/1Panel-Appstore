@@ -1,0 +1,74 @@
+additionalProperties:
+  formFields:
+  - default: ''
+    envKey: GO_PROXY_ADMIN_TOKEN
+    labelEn: Admin API Token
+    labelZh: 管理 API 令牌
+    label:
+      en: Admin API Token
+      es-es: Token de la API de administracion
+      ja: 管理 API トークン
+      ms: Token API Pentadbir
+      pt-br: Token da API de administracao
+      ru: Токен Admin API
+      ko: 관리 API 토큰
+      zh-Hant: 管理 API 權杖
+      zh: 管理 API 令牌
+      tr: Yonetici API Belirteci
+    random: true
+    required: true
+    type: password
+  - default: ''
+    envKey: SESSION_SECRET
+    labelEn: Session Secret
+    labelZh: 会话签名密钥
+    label:
+      en: Session Secret
+      es-es: Secreto de sesion
+      ja: セッション署名キー
+      ms: Rahsia Sesi
+      pt-br: Segredo da sessao
+      ru: Секрет сессии
+      ko: 세션 서명 키
+      zh-Hant: 工作階段簽章金鑰
+      zh: 会话签名密钥
+      tr: Oturum Sirri
+    random: true
+    required: true
+    type: password
+  - default: 50000
+    envKey: PANEL_APP_PORT_REGISTRY
+    labelEn: Registry Proxy Port
+    labelZh: 镜像加速端口
+    label:
+      en: Registry Proxy Port
+      es-es: Puerto del proxy de registro
+      ja: レジストリプロキシポート
+      ms: Port proksi registri
+      pt-br: Porta do proxy de registro
+      ru: Порт прокси-реестра
+      ko: 레지스트리 프록시 포트
+      zh-Hant: 鏡像加速埠
+      zh: 镜像加速端口
+      tr: Registry Proxy Baglanti Noktasi
+    required: true
+    rule: paramPort
+    type: number
+  - default: 30080
+    envKey: PANEL_APP_PORT_HTTP
+    labelEn: Web UI Port
+    labelZh: Web UI 端口
+    label:
+      en: Web UI Port
+      es-es: Puerto web
+      ja: Web UIポート
+      ms: Port Web UI
+      pt-br: Porta da Web UI
+      ru: Порт веб-интерфейса
+      ko: 웹 UI 포트
+      zh-Hant: Web UI 埠
+      zh: Web UI 端口
+      tr: Web UI Bağlantı Noktası
+    required: true
+    rule: paramPort
+    type: number

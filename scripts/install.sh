@@ -5,7 +5,7 @@ STORE_DIR="${STORE_DIR:-/opt/1panel-third-party/shenbourne}"
 LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 # Optional prefix, for example https://ghfast.top/ (third-party service).
 DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
-for tool in curl tar flock mktemp realpath mkdir rm sleep; do
+for tool in curl tar flock mktemp realpath mkdir rm sleep grep; do
     command -v "$tool" >/dev/null || { echo "Missing dependency: $tool" >&2; exit 1; }
 done
 [[ "$STORE_DIR" = /* && "$LOCAL_APPS_DIR" = /* ]] || { echo "Use absolute paths" >&2; exit 1; }
@@ -43,13 +43,13 @@ done
 # Only extract the expected GitHub archive root and regular files/directories.
 if grep -Ev '^1panel-appstore-main(/|$)' "$work/entries" ||
     grep -Eq '(^|/)\.\.(/|$)' "$work/entries" ||
-    tar -tvzf "$work/catalog.tar.gz" | grep -Eq '^[^d-]'; then
+    tar -tvzf "$work/catalog.tar.gz" | grep -E '^[^d-]' > /dev/null; then
     echo "Unexpected archive entries; templates unchanged." >&2
     exit 1
 fi
 mkdir "$work/source"
 tar -xzf "$work/catalog.tar.gz" --strip-components=1 --no-same-owner -C "$work/source"
-[[ -f "$work/source/scripts/sync.sh" && -s "$work/source/apps.txt" ]] ||
+[[ -f "$work/source/scripts/sync.sh" && -s "$work/source/apps.txt" && -d "$work/source/apps" ]] ||
     { echo "Incomplete archive; templates unchanged." >&2; exit 1; }
 LOCAL_APPS_DIR="$LOCAL_APPS_DIR" STATE_DIR="$STORE_DIR" SOURCE_DIR="$work/source" \
     bash "$work/source/scripts/sync.sh"

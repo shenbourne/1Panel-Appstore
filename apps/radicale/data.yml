@@ -1,6 +1,6 @@
 name: Radicale
 tags:
-  - 实用工具
+- 实用工具
 title: 一个轻量级的 CalDAV（日历）和 CardDAV（通讯录）服务器。
 description:
   en: A simple CalDAV (calendar) and CardDAV (contact) server.
@@ -9,7 +9,7 @@ additionalProperties:
   key: radicale
   name: Radicale
   tags:
-    - Tool
+  - Tool
   shortDescZh: 一个轻量级的 CalDAV（日历）和 CardDAV（通讯录）服务器。
   shortDescEn: A simple CalDAV (calendar) and CardDAV (contact) server.
   type: tool
@@ -19,5 +19,8 @@ additionalProperties:
   github: https://github.com/Kozea/Radicale
   document: https://radicale.org/v3.html#getting-started
   architectures:
-    - amd64
-    - arm64
+  - amd64
+  - arm64
+  description:
+    en: A simple CalDAV (calendar) and CardDAV (contact) server.
+    zh: 一个轻量级的 CalDAV（日历）和 CardDAV（通讯录）服务器。
