@@ -9,6 +9,9 @@ mkdir -p "$LOCAL_APPS_DIR/magpie" "$LOCAL_APPS_DIR/other-store"
 printf 'original\n' > "$LOCAL_APPS_DIR/magpie/custom.txt"
 printf 'keep\n' > "$LOCAL_APPS_DIR/other-store/keep.txt"
 bash "$root/scripts/sync.sh"
+while IFS= read -r app; do
+    cmp "$root/apps/$app/data.yml" "$LOCAL_APPS_DIR/$app/data.yml"
+done < "$root/apps.txt"
 cmp "$root/apps/magpie/data.yml" "$LOCAL_APPS_DIR/magpie/data.yml"
 test "$(cat "$LOCAL_APPS_DIR/other-store/keep.txt")" = keep
 test "$(cat "$LOCAL_APPS_DIR/magpie/custom.txt")" = original
@@ -47,6 +50,9 @@ PATH="$scratch/bin:$PATH" TEST_ARCHIVE="$scratch/catalog.tar.gz" \
     STORE_DIR="$scratch/installer-state" LOCAL_APPS_DIR="$scratch/installer-local" \
     bash "$root/scripts/install.sh"
 cmp "$root/apps/magpie/data.yml" "$scratch/installer-local/magpie/data.yml"
+while IFS= read -r app; do
+    cmp "$root/apps/$app/data.yml" "$scratch/installer-local/$app/data.yml"
+done < "$root/apps.txt"
 
 # A failed bootstrap transfer must retry; total failure must never execute a script.
 cat > "$scratch/bin/curl" <<'SH'

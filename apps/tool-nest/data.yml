@@ -1,0 +1,24 @@
+name: Tool-Nest
+tags:
+- Tool
+title: 自托管开发与日常工具工作台
+description: 自托管开发与日常工具工作台
+additionalProperties:
+  key: tool-nest
+  name: Tool-Nest
+  tags:
+  - Tool
+  shortDescZh: 自托管开发与日常工具工作台
+  shortDescEn: Self-hosted developer and everyday tools
+  description:
+    en: Self-hosted developer and everyday tools
+    zh: 自托管开发与日常工具工作台
+  type: website
+  crossVersionUpdate: true
+  limit: 0
+  architectures:
+  - amd64
+  - arm64
+  website: https://github.com/shenbourne/Tool-Nest
+  github: https://github.com/shenbourne/Tool-Nest
+  document: https://github.com/shenbourne/Tool-Nest#readme

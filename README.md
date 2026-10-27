@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml"><img src="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml/badge.svg" alt="应用校验"></a>
   <img src="https://img.shields.io/badge/1Panel-Local%20Apps-2563eb" alt="1Panel 本地应用">
-  <img src="https://img.shields.io/badge/Apps-5-0f766e" alt="5 个应用">
+  <img src="https://img.shields.io/badge/Apps-8-0f766e" alt="8 个应用">
 </p>
 
 <p align="center"><a href="#应用一览">应用一览</a> · <a href="#添加到-1panel-计划任务">计划任务</a> · <a href="#网络与加速">网络与加速</a> · <a href="#目录与规范">目录规范</a> · <a href="CONTRIBUTING.md">贡献应用</a></p>
@@ -33,6 +33,11 @@
 <tr>
 <td align="center" valign="top" width="33%"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>自托管日历与通讯录<br>支持标准协议与多端同步<br><code>3.0.0</code> · <a href="https://radicale.org/v3.html">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>内网穿透与远程访问<br>通过启动器统一管理隧道<br><code>1.0.0</code> · <a href="https://www.natfrp.com">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/nav-site/README.md"><img src="apps/nav-site/logo.png" height="64" alt="Nav-Site"><br><strong>Nav-Site</strong></a><br>自托管导航与书签管理<br>集中整理常用网站与链接<br><code>latest</code> · <a href="https://github.com/shenbourne/Nav-Site">官网</a></td>
+</tr>
+<tr>
+<td align="center" valign="top" width="33%"><a href="apps/clash-configurator/README.md"><img src="apps/clash-configurator/logo.png" height="64" alt="Clash-Configurator"><br><strong>Clash-Configurator</strong></a><br>可视化编辑代理配置<br>管理节点、分组与规则集<br><code>latest</code> · <a href="https://github.com/shenbourne/Clash-Configurator">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/tool-nest/README.md"><img src="apps/tool-nest/logo.png" height="64" alt="Tool-Nest"><br><strong>Tool-Nest</strong></a><br>一站式开发与日常工具<br>处理文本、图片与数据<br><code>latest</code> · <a href="https://github.com/shenbourne/Tool-Nest">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="https://github.com/shenbourne/1Panel-Appstore/issues"><strong>推荐下一个应用</strong></a><br>分享实用的自托管服务<br>提交应用来源与部署需求</td>
 </tr>
 </table>

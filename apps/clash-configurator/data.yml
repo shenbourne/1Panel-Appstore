@@ -1,0 +1,23 @@
+name: Clash-Configurator
+tags:
+- Tool
+title: 可视化生成和编辑 Clash 配置
+description: 可视化生成和编辑 Clash 配置
+additionalProperties:
+  key: clash-configurator
+  name: Clash-Configurator
+  tags:
+  - Tool
+  shortDescZh: 可视化生成和编辑 Clash 配置
+  shortDescEn: Visual Clash configuration and rule-set editor
+  description:
+    en: Visual Clash configuration and rule-set editor
+    zh: 可视化生成和编辑 Clash 配置
+  type: website
+  crossVersionUpdate: true
+  limit: 0
+  architectures:
+  - amd64
+  website: https://github.com/shenbourne/Clash-Configurator
+  github: https://github.com/shenbourne/Clash-Configurator
+  document: https://github.com/shenbourne/Clash-Configurator#readme

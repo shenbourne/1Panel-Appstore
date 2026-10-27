@@ -1,0 +1,21 @@
+services:
+  nav-site:
+    image: shenbourne/nav-site:latest
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    ports:
+    - ${APP_BIND_IP}:${PANEL_APP_PORT_HTTP}:3000
+    environment:
+      NODE_ENV: production
+      NAV_ADMIN_PASSWORD: ${NAV_ADMIN_PASSWORD:?Set an initial admin password of at
+        least 12 characters}
+      TRUST_PROXY: ${TRUST_PROXY:-}
+    volumes:
+    - ./data:/app/data
+    networks:
+    - 1panel-network
+    labels:
+      createdBy: Apps
+networks:
+  1panel-network:
+    external: true

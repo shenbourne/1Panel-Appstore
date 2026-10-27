@@ -1,0 +1,23 @@
+name: Nav-Site
+tags:
+- Tool
+title: 自托管导航站与书签管理
+description: 自托管导航站与书签管理
+additionalProperties:
+  key: nav-site
+  name: Nav-Site
+  tags:
+  - Tool
+  shortDescZh: 自托管导航站与书签管理
+  shortDescEn: Self-hosted navigation and bookmark management
+  description:
+    en: Self-hosted navigation and bookmark management
+    zh: 自托管导航站与书签管理
+  type: website
+  crossVersionUpdate: true
+  limit: 0
+  architectures:
+  - amd64
+  website: https://github.com/shenbourne/Nav-Site
+  github: https://github.com/shenbourne/Nav-Site
+  document: https://github.com/shenbourne/Nav-Site#readme

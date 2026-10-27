@@ -1,0 +1,33 @@
+additionalProperties:
+  formFields:
+  - default: 3001
+    envKey: PANEL_APP_PORT_HTTP
+    required: true
+    type: number
+    labelEn: HTTP port
+    labelZh: 访问端口
+    label:
+      en: HTTP port
+      zh: 访问端口
+    edit: true
+    rule: paramPort
+  - default: 127.0.0.1
+    envKey: APP_BIND_IP
+    required: true
+    type: text
+    labelEn: Host bind IPv4 address
+    labelZh: 主机监听 IPv4 地址
+    label:
+      en: Host bind IPv4 address
+      zh: 主机监听 IPv4 地址
+    edit: true
+  - default: http://localhost:3001
+    envKey: CORS_ORIGIN
+    required: true
+    type: text
+    labelEn: Public origin (scheme and port)
+    labelZh: 实际访问地址（含协议和端口）
+    label:
+      en: Public origin (scheme and port)
+      zh: 实际访问地址（含协议和端口）
+    edit: true

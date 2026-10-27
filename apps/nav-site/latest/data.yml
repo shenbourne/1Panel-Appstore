@@ -1,0 +1,43 @@
+additionalProperties:
+  formFields:
+  - default: 3000
+    envKey: PANEL_APP_PORT_HTTP
+    required: true
+    type: number
+    labelEn: HTTP port
+    labelZh: 访问端口
+    label:
+      en: HTTP port
+      zh: 访问端口
+    edit: true
+    rule: paramPort
+  - default: 0.0.0.0
+    envKey: APP_BIND_IP
+    required: true
+    type: text
+    labelEn: Host bind IPv4 address
+    labelZh: 主机监听 IPv4 地址
+    label:
+      en: Host bind IPv4 address
+      zh: 主机监听 IPv4 地址
+    edit: true
+  - default: ''
+    envKey: NAV_ADMIN_PASSWORD
+    required: true
+    type: password
+    labelEn: Initial admin password (12+ characters)
+    labelZh: 初始管理员密码（至少 12 位）
+    label:
+      en: Initial admin password (12+ characters)
+      zh: 初始管理员密码（至少 12 位）
+    edit: true
+  - default: ''
+    envKey: TRUST_PROXY
+    required: false
+    type: text
+    labelEn: Trusted proxy hops (empty for direct access)
+    labelZh: 可信代理层数（直连留空）
+    label:
+      en: Trusted proxy hops (empty for direct access)
+      zh: 可信代理层数（直连留空）
+    edit: true
