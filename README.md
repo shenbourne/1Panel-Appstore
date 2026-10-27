@@ -24,16 +24,16 @@
 
 ## 应用一览
 
-<table>
+<table width="100%">
 <tr>
-<td align="center" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>mihomo 代理与 metacubexd 面板<br><code>1.19.31</code></td>
-<td align="center" width="33%"><a href="apps/docker-proxy/README.md"><img src="apps/docker-proxy/logo.png" height="64" alt="Docker Proxy"><br><strong>Docker Proxy</strong></a><br>Docker 镜像加速与管理<br><code>latest</code></td>
-<td align="center" width="33%"><a href="apps/magpie/README.md"><img src="apps/magpie/logo.png" height="64" alt="Magpie"><br><strong>Magpie</strong></a><br>AI 模型网关与订阅管理<br><code>latest</code></td>
+<td align="center" valign="top" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>基于 mihomo 内核的规则代理服务<br>集成 metacubexd 面板，管理代理与分流<br><code>1.19.31</code> · <a href="https://wiki.metacubex.one">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/docker-proxy/README.md"><img src="apps/docker-proxy/logo.png" height="64" alt="Docker Proxy"><br><strong>Docker Proxy</strong></a><br>自建 Docker 镜像加速与转发服务<br>配备可视化面板，集中管理镜像代理<br><code>latest</code> · <a href="https://dqzboy.github.io/docs/">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/magpie/README.md"><img src="apps/magpie/logo.png" height="64" alt="Magpie"><br><strong>Magpie</strong></a><br>统一管理 AI 模型、订阅与网关密钥<br>通过浏览器配置提供商和模型路由<br><code>latest</code> · <a href="https://usemagpie.ai">官网</a></td>
 </tr>
 <tr>
-<td align="center"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>CalDAV 日历与 CardDAV 通讯录<br><code>3.0.0</code></td>
-<td align="center"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>内网穿透与远程访问<br><code>1.0.0</code></td>
-<td align="center"><a href="https://github.com/shenbourne/1panel-appstore/issues"><strong>推荐下一个应用</strong></a><br>提交应用来源与部署需求</td>
+<td align="center" valign="top" width="33%"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>轻量级 CalDAV 与 CardDAV 服务<br>自托管日历与通讯录，支持客户端同步<br><code>3.0.0</code> · <a href="https://radicale.org/v3.html">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>将内网服务通过隧道映射至外网<br>使用启动器管理隧道，实现远程访问<br><code>1.0.0</code> · <a href="https://www.natfrp.com">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="https://github.com/shenbourne/1panel-appstore/issues"><strong>推荐下一个应用</strong></a><br>分享你希望部署的自托管服务<br>提交应用来源、使用场景与部署需求</td>
 </tr>
 </table>
 
