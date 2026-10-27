@@ -9,7 +9,7 @@ STATE_DIR="${STATE_DIR:-/opt/1panel-third-party/shenbourne}"
 SOURCE_DIR="${SOURCE_DIR:-}"
 
 die() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
-for tool in flock cp mkdir mktemp realpath diff find date; do
+for tool in flock cp mkdir mktemp realpath diff find date python3; do
     command -v "$tool" >/dev/null || die "Missing dependency: $tool"
 done
 [[ "$LOCAL_APPS_DIR" = /* && "$STATE_DIR" = /* ]] || die "Use absolute paths"
@@ -35,6 +35,7 @@ if [[ -z "$SOURCE_DIR" ]]; then
 fi
 SOURCE_DIR="$(realpath "$SOURCE_DIR")"
 [[ -f "$SOURCE_DIR/apps.txt" ]] || die "Missing apps.txt"
+[[ -f "$SOURCE_DIR/scripts/merge-duplicates.py" ]] || die "Missing merge-duplicates.py"
 APP_SOURCE="$SOURCE_DIR/apps"
 [[ -d "$APP_SOURCE" && ! -L "$APP_SOURCE" ]] || die "Missing or linked apps directory"
 apps=()
@@ -79,4 +80,7 @@ for app in "${apps[@]}"; do
     printf 'Synced: %s\n' "$app"
 done
 [[ -z "$backup" ]] || printf 'Backup: %s\n' "$backup"
+python3 "$SOURCE_DIR/scripts/merge-duplicates.py" \
+    --local-apps-dir "$LOCAL_APPS_DIR" --source-dir "$SOURCE_DIR" \
+    --backup-dir "$STATE_DIR/backups" --apply
 printf 'Templates ready: %s\nRefresh local apps in the 1Panel app store.\n' "$LOCAL_APPS_DIR"

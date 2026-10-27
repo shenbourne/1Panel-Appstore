@@ -38,7 +38,7 @@
 
 ## 使用前准备
 
-已安装 1Panel 和 Docker。默认本地应用目录为 `/opt/1panel/resource/apps/local`，自定义安装路径时请修改脚本中的 `LOCAL_APPS_DIR`。
+已安装 1Panel、Docker 和 Python 3。默认本地应用目录为 `/opt/1panel/resource/apps/local`，自定义安装路径时请修改脚本中的 `LOCAL_APPS_DIR`。
 
 ## 添加到 1Panel 计划任务
 
@@ -58,8 +58,8 @@ set -euo pipefail
 # 1Panel 安装在其他位置时，修改下行冒号后的默认路径。
 export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 
-# 默认直连；需要加速时，将下行改为 export DOWNLOAD_PROXY="https://ghfast.top/"
-export DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
+# 默认使用下载加速；可替换为 README 中的其他地址，直连请改为 export DOWNLOAD_PROXY=""
+export DOWNLOAD_PROXY="${DOWNLOAD_PROXY-https://ghfast.top/}"
 
 url="https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
 if [[ -n "$DOWNLOAD_PROXY" ]]; then
@@ -82,7 +82,7 @@ bash "$script"
 
 ## 网络与加速
 
-GitHub 下载超时或连接失败时，可在计划任务脚本中设置下载代理：
+脚本默认使用 GH Fast 下载加速。如需切换，可替换计划任务脚本中的配置：
 
 ```bash
 # 用此行替换完整脚本中的 DOWNLOAD_PROXY 配置；地址可从下表选择。
@@ -97,7 +97,9 @@ export DOWNLOAD_PROXY="https://ghfast.top/"
 | GH-Proxy | `https://gh-proxy.com/` |
 | GH-Proxy.org | `https://gh-proxy.org/` |
 
-选择一个地址，替换完整脚本中的 `export DOWNLOAD_PROXY=...` 一行，保存后重新执行任务。留空则直连 GitHub；下载失败时可换另一个地址。
+选择一个地址，替换完整脚本中的 `export DOWNLOAD_PROXY=...` 一行，保存后重新执行任务。直连 GitHub 超时（`curl: (28) Connection timed out`）时，建议先启用上述加速地址；仍失败时换另一个地址。
+
+如需直连 GitHub，将配置改为 `export DOWNLOAD_PROXY=""`。已有计划任务需重新粘贴上面的完整脚本，仓库更新不会自动修改面板中保存的任务内容。
 
 以上均为第三方服务，可用性因网络而异。加速服务需支持 `代理前缀/https://github.com/...` 格式，并且能同时下载安装脚本和应用压缩包。
 
@@ -106,6 +108,22 @@ export DOWNLOAD_PROXY="https://ghfast.top/"
 下载源码压缩包后，把 `apps/` 下需要的**应用目录**复制到本地应用目录，再刷新本地应用。不要把 `apps` 本身、仓库根目录或 `scripts` 当成应用导入。
 
 停止同步只需禁用或删除计划任务。移除模板前请先备份，再移除本仓库对应目录；已安装实例通过面板单独管理。
+
+## 合并重复应用
+
+计划任务在每次同步模板后自动合并重复应用，无需添加额外任务。需要单独检查时，可在仓库目录执行：
+
+```bash
+# 先预览；自定义安装位置时，修改 --local-apps-dir。
+python3 scripts/merge-duplicates.py --local-apps-dir /opt/1panel/resource/apps/local
+
+# 确认预览结果后执行合并，完成后刷新面板中的本地应用列表。
+python3 scripts/merge-duplicates.py --local-apps-dir /opt/1panel/resource/apps/local --apply
+```
+
+脚本比较所有版本的 `docker-compose.yml`，版本目录和文件内容全部相同才视为重复（忽略 Windows/Linux 换行符差异）。同名应用不是判断依据；仅镜像相同、端口不同或多出版本均不会合并。表单、挂载文件或其他附加文件有冲突时跳过。
+
+合并保留本仓库的应用标识、图标和说明，补入缺少的文件，先备份双方目录，再移除重复模板目录。计划任务备份位于 `STORE_DIR/backups/merge-*`，默认路径为 `/opt/1panel-third-party/shenbourne/backups/merge-*`。独立执行可用 `--backup-dir` 修改。执行时避免与其他商店同步任务重叠；本脚本不修改已安装容器和数据卷。
 
 ## 贡献与反馈
 

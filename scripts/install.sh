@@ -5,7 +5,7 @@ STORE_DIR="${STORE_DIR:-/opt/1panel-third-party/shenbourne}"
 LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 # Optional prefix, for example https://ghfast.top/ (third-party service).
 DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
-for tool in curl tar flock mktemp realpath mkdir rm sleep grep; do
+for tool in curl tar flock mktemp realpath mkdir rm sleep grep python3; do
     command -v "$tool" >/dev/null || { echo "Missing dependency: $tool" >&2; exit 1; }
 done
 [[ "$STORE_DIR" = /* && "$LOCAL_APPS_DIR" = /* ]] || { echo "Use absolute paths" >&2; exit 1; }
@@ -49,7 +49,8 @@ if grep -Ev '^1Panel-Appstore-main(/|$)' "$work/entries" ||
 fi
 mkdir "$work/source"
 tar -xzf "$work/catalog.tar.gz" --strip-components=1 --no-same-owner -C "$work/source"
-[[ -f "$work/source/scripts/sync.sh" && -s "$work/source/apps.txt" && -d "$work/source/apps" ]] ||
+[[ -f "$work/source/scripts/sync.sh" && -f "$work/source/scripts/merge-duplicates.py" &&
+   -s "$work/source/apps.txt" && -d "$work/source/apps" ]] ||
     { echo "Incomplete archive; templates unchanged." >&2; exit 1; }
 LOCAL_APPS_DIR="$LOCAL_APPS_DIR" STATE_DIR="$STORE_DIR" SOURCE_DIR="$work/source" \
     bash "$work/source/scripts/sync.sh"

@@ -8,14 +8,19 @@ export SOURCE_DIR="$root"
 mkdir -p "$LOCAL_APPS_DIR/magpie" "$LOCAL_APPS_DIR/other-store"
 printf 'original\n' > "$LOCAL_APPS_DIR/magpie/custom.txt"
 printf 'keep\n' > "$LOCAL_APPS_DIR/other-store/keep.txt"
+cp -a "$root/apps/magpie" "$LOCAL_APPS_DIR/duplicate-magpie"
+printf 'duplicate extra\n' > "$LOCAL_APPS_DIR/duplicate-magpie/extra.txt"
 bash "$root/scripts/sync.sh"
+test ! -e "$LOCAL_APPS_DIR/duplicate-magpie"
+test "$(cat "$LOCAL_APPS_DIR/magpie/extra.txt")" = "duplicate extra"
+test "$(find "$STATE_DIR/backups" -path '*/duplicate-magpie/data.yml' | wc -l)" -eq 1
 while IFS= read -r app; do
     cmp "$root/apps/$app/data.yml" "$LOCAL_APPS_DIR/$app/data.yml"
 done < "$root/apps.txt"
 cmp "$root/apps/magpie/data.yml" "$LOCAL_APPS_DIR/magpie/data.yml"
 test "$(cat "$LOCAL_APPS_DIR/other-store/keep.txt")" = keep
 test "$(cat "$LOCAL_APPS_DIR/magpie/custom.txt")" = original
-test "$(find "$STATE_DIR/backups" -name custom.txt | wc -l)" -eq 1
+test "$(find "$STATE_DIR/backups" -name custom.txt | wc -l)" -ge 1
 # Check idempotence on a template without local extra files.
 bash "$root/scripts/sync.sh" > "$scratch/second.log"
 grep -q 'Unchanged: clash-meta' "$scratch/second.log"
@@ -86,4 +91,4 @@ if PATH="$scratch/bin:$PATH" TEST_COUNT="$scratch/fail-count" TEST_MARKER="$scra
 fi
 test ! -e "$scratch/must-not-run"
 test "$(cat "$scratch/fail-count")" -eq 1
-echo "PASS: bootstrap retry/failure, archive download, sync, backup and preservation"
+echo "PASS: bootstrap failure, archive download, sync, backup and preservation"
