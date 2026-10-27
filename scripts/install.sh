@@ -17,8 +17,8 @@ flock -n 8 || { echo "Another download is running" >&2; exit 1; }
 work="$(mktemp -d "$STORE_DIR/download-XXXXXXXX")"
 trap 'rm -rf -- "$work"' EXIT
 urls=(
-    "https://codeload.github.com/shenbourne/1panel-appstore/tar.gz/refs/heads/main"
-    "https://github.com/shenbourne/1panel-appstore/archive/refs/heads/main.tar.gz"
+    "https://codeload.github.com/shenbourne/1Panel-Appstore/tar.gz/refs/heads/main"
+    "https://github.com/shenbourne/1Panel-Appstore/archive/refs/heads/main.tar.gz"
 )
 if [[ -n "$DOWNLOAD_PROXY" ]]; then
     [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
@@ -41,7 +41,7 @@ for url in "${urls[@]}"; do
 done
 "$downloaded" || { echo "Download failed. Check connectivity or set DOWNLOAD_PROXY; templates unchanged." >&2; exit 1; }
 # Only extract the expected GitHub archive root and regular files/directories.
-if grep -Ev '^1panel-appstore-main(/|$)' "$work/entries" ||
+if grep -Ev '^1Panel-Appstore-main(/|$)' "$work/entries" ||
     grep -Eq '(^|/)\.\.(/|$)' "$work/entries" ||
     tar -tvzf "$work/catalog.tar.gz" | grep -E '^[^d-]' > /dev/null; then
     echo "Unexpected archive entries; templates unchanged." >&2

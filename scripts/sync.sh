@@ -2,7 +2,7 @@
 set -Eeuo pipefail
 umask 022
 
-REPO_URL="${REPO_URL:-https://github.com/shenbourne/1panel-appstore.git}"
+REPO_URL="${REPO_URL:-https://github.com/shenbourne/1Panel-Appstore.git}"
 BRANCH="${BRANCH:-main}"
 LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 STATE_DIR="${STATE_DIR:-/opt/1panel-third-party/shenbourne}"

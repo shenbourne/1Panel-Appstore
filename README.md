@@ -3,7 +3,7 @@
 <p align="center">自托管服务，从应用商店开始。<br>为 1Panel 整理的第三方 Docker 应用模板。</p>
 
 <p align="center">
-  <a href="https://github.com/shenbourne/1panel-appstore/actions/workflows/validate.yml"><img src="https://github.com/shenbourne/1panel-appstore/actions/workflows/validate.yml/badge.svg" alt="应用校验"></a>
+  <a href="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml"><img src="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml/badge.svg" alt="应用校验"></a>
   <img src="https://img.shields.io/badge/1Panel-Local%20Apps-2563eb" alt="1Panel 本地应用">
   <img src="https://img.shields.io/badge/Apps-5-0f766e" alt="5 个应用">
 </p>
@@ -33,7 +33,7 @@
 <tr>
 <td align="center" valign="top" width="33%"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>自托管日历与通讯录<br>支持标准协议与多端同步<br><code>3.0.0</code> · <a href="https://radicale.org/v3.html">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>内网穿透与远程访问<br>通过启动器统一管理隧道<br><code>1.0.0</code> · <a href="https://www.natfrp.com">官网</a></td>
-<td align="center" valign="top" width="33%"><a href="https://github.com/shenbourne/1panel-appstore/issues"><strong>推荐下一个应用</strong></a><br>分享实用的自托管服务<br>提交应用来源与部署需求</td>
+<td align="center" valign="top" width="33%"><a href="https://github.com/shenbourne/1Panel-Appstore/issues"><strong>推荐下一个应用</strong></a><br>分享实用的自托管服务<br>提交应用来源与部署需求</td>
 </tr>
 </table>
 
@@ -64,8 +64,8 @@ export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 export DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
 
 urls=(
-  "https://raw.githubusercontent.com/shenbourne/1panel-appstore/main/scripts/install.sh"
-  "https://github.com/shenbourne/1panel-appstore/raw/refs/heads/main/scripts/install.sh"
+  "https://raw.githubusercontent.com/shenbourne/1Panel-Appstore/main/scripts/install.sh"
+  "https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
 )
 if [[ -n "$DOWNLOAD_PROXY" ]]; then
   [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
@@ -167,6 +167,6 @@ bash tests/sync.sh
 
 - [1Panel 官方应用商店](https://github.com/1Panel-dev/appstore) · [应用提交规范](https://github.com/1Panel-dev/appstore/wiki/How-to-submit-your-own-application)
 - [okxlin/appstore](https://github.com/okxlin/appstore) · [arch3rPro/1Panel-Appstore](https://github.com/arch3rPro/1Panel-Appstore)
-- [提交问题或应用建议](https://github.com/shenbourne/1panel-appstore/issues)
+- [提交问题或应用建议](https://github.com/shenbourne/1Panel-Appstore/issues)
 
 应用名称、图标和容器镜像归各自上游所有，请遵循上游许可证与使用条款。应用配置中的权限、端口和数据目录应在安装前按实际环境确认。

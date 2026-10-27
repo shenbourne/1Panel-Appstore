@@ -27,9 +27,9 @@ grep -q 'Target is a symlink' "$scratch/rejected.log"
 test ! -e "$LOCAL_APPS_DIR/clash-meta"
 
 # Exercise the downloader without network access by replacing curl with a fixture.
-mkdir -p "$scratch/archive/1panel-appstore-main" "$scratch/bin"
-cp -a "$root/apps" "$root/scripts" "$root/apps.txt" "$root/data.yaml" "$scratch/archive/1panel-appstore-main/"
-tar -czf "$scratch/catalog.tar.gz" -C "$scratch/archive" 1panel-appstore-main
+mkdir -p "$scratch/archive/1Panel-Appstore-main" "$scratch/bin"
+cp -a "$root/apps" "$root/scripts" "$root/apps.txt" "$root/data.yaml" "$scratch/archive/1Panel-Appstore-main/"
+tar -czf "$scratch/catalog.tar.gz" -C "$scratch/archive" 1Panel-Appstore-main
 cat > "$scratch/bin/curl" <<'SH'
 #!/usr/bin/env bash
 set -e

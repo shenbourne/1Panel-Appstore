@@ -5,8 +5,8 @@ export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 export DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
 
 urls=(
-  "https://raw.githubusercontent.com/shenbourne/1panel-appstore/main/scripts/install.sh"
-  "https://github.com/shenbourne/1panel-appstore/raw/refs/heads/main/scripts/install.sh"
+  "https://raw.githubusercontent.com/shenbourne/1Panel-Appstore/main/scripts/install.sh"
+  "https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
 )
 if [[ -n "$DOWNLOAD_PROXY" ]]; then
   [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
