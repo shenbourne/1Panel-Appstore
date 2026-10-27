@@ -53,35 +53,21 @@
 
 ```bash
 #!/usr/bin/env bash
-set -Eeuo pipefail
-export STORE_DIR="${STORE_DIR:-/opt/1panel-third-party/shenbourne}"
+set -euo pipefail
 export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
 export DOWNLOAD_PROXY="${DOWNLOAD_PROXY:-}"
-
-urls=(
-  "https://raw.githubusercontent.com/shenbourne/1Panel-Appstore/main/scripts/install.sh"
-  "https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
-)
+url="https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
 if [[ -n "$DOWNLOAD_PROXY" ]]; then
   [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
-  urls=("${DOWNLOAD_PROXY%/}/${urls[1]}")
+  url="${DOWNLOAD_PROXY%/}/$url"
 fi
 script="$(mktemp)"
 trap 'rm -f -- "$script"' EXIT
-for url in "${urls[@]}"; do
-  for attempt in 1 2 3; do
-    if curl --fail --location --http1.1 --connect-timeout 20 --max-time 180 \
-      --proto '=https' --proto-redir '=https' --output "$script" "$url" &&
-      [[ -s "$script" ]] && bash -n "$script"; then
-      bash "$script"
-      exit 0
-    fi
-    echo "Bootstrap download failed (attempt $attempt/3)" >&2
-    sleep 2
-  done
-done
-echo "Cannot download installer. Check network or DOWNLOAD_PROXY; templates unchanged." >&2
-exit 1
+curl --fail --location --http1.1 --retry 2 --retry-all-errors --retry-delay 2 \
+  --connect-timeout 20 --max-time 180 --proto '=https' --proto-redir '=https' --output "$script" "$url"
+test -s "$script"
+bash -n "$script"
+bash "$script"
 ```
 
 </details>
@@ -91,10 +77,20 @@ exit 1
 GitHub 下载超时或连接失败时，可在计划任务脚本中设置下载代理：
 
 ```bash
-export DOWNLOAD_PROXY="https://你的代理地址/"
+export DOWNLOAD_PROXY="https://ghfast.top/"
 ```
 
-代理需支持 `代理前缀/https://github.com/...` 格式。保存后重新执行任务。
+也可以选择以下任意一个地址：
+
+| GitHub 下载加速 | `DOWNLOAD_PROXY` 填写值 |
+| --- | --- |
+| GH Fast | `https://ghfast.top/` |
+| GH-Proxy | `https://gh-proxy.com/` |
+| GH-Proxy.org | `https://gh-proxy.org/` |
+
+选择一个地址，替换完整脚本中的 `export DOWNLOAD_PROXY=...` 一行，保存后重新执行任务。留空则直连 GitHub；下载失败时可换另一个地址。
+
+以上均为第三方服务，可用性因网络而异。加速服务需支持 `代理前缀/https://github.com/...` 格式，并且能同时下载安装脚本和应用压缩包。
 
 ## 手动导入与停止同步
 

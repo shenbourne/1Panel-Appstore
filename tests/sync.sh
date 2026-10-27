@@ -54,7 +54,7 @@ while IFS= read -r app; do
     cmp "$root/apps/$app/data.yml" "$scratch/installer-local/$app/data.yml"
 done < "$root/apps.txt"
 
-# A failed bootstrap transfer must retry; total failure must never execute a script.
+# Bootstrap delegates retries to curl; failed transfers must never execute a script.
 cat > "$scratch/bin/curl" <<'SH'
 #!/usr/bin/env bash
 set -e
@@ -62,7 +62,8 @@ count=0
 [[ ! -f "$TEST_COUNT" ]] || count="$(cat "$TEST_COUNT")"
 count=$((count + 1))
 echo "$count" > "$TEST_COUNT"
-[[ "${TEST_FAIL_ALL:-}" != 1 && "$count" -gt 1 ]] || exit 56
+[[ " $* " = *" --retry 2 "* && " $* " = *" --retry-all-errors "* ]] || exit 2
+[[ "${TEST_FAIL_ALL:-}" != 1 ]] || exit 56
 while [[ $# -gt 0 ]]; do
     if [[ "$1" = --output ]]; then
         printf '#!/usr/bin/env bash\nprintf ok > "$TEST_MARKER"\n' > "$2"
@@ -76,7 +77,7 @@ printf '#!/usr/bin/env bash\nexit 0\n' > "$scratch/bin/sleep"
 chmod +x "$scratch/bin/sleep"
 PATH="$scratch/bin:$PATH" TEST_COUNT="$scratch/count" TEST_MARKER="$scratch/marker" \
     bash "$root/scripts/bootstrap.sh"
-test "$(cat "$scratch/count")" -eq 2
+test "$(cat "$scratch/count")" -eq 1
 test "$(cat "$scratch/marker")" = ok
 if PATH="$scratch/bin:$PATH" TEST_COUNT="$scratch/fail-count" TEST_MARKER="$scratch/must-not-run" \
     TEST_FAIL_ALL=1 bash "$root/scripts/bootstrap.sh"; then
@@ -84,5 +85,5 @@ if PATH="$scratch/bin:$PATH" TEST_COUNT="$scratch/fail-count" TEST_MARKER="$scra
     exit 1
 fi
 test ! -e "$scratch/must-not-run"
-test "$(cat "$scratch/fail-count")" -eq 6
+test "$(cat "$scratch/fail-count")" -eq 1
 echo "PASS: bootstrap retry/failure, archive download, sync, backup and preservation"
