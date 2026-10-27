@@ -26,7 +26,7 @@
 
 <table width="100%">
 <tr>
-<td align="center" valign="top" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>基于 mihomo 的规则代理<br>可视化管理节点与分流<br><code>1.19.31</code> · <a href="https://wiki.metacubex.one">官网</a></td>
+<td align="center" valign="top" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>规则代理与流量分流<br>可视化管理节点与分流<br><code>1.19.31</code> · <a href="https://wiki.metacubex.one">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="apps/docker-proxy/README.md"><img src="apps/docker-proxy/logo.png" height="64" alt="Docker Proxy"><br><strong>Docker Proxy</strong></a><br>自建 Docker 镜像加速<br>可视化管理代理与转发<br><code>latest</code> · <a href="https://dqzboy.github.io/docs/">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="apps/magpie/README.md"><img src="apps/magpie/logo.png" height="64" alt="Magpie"><br><strong>Magpie</strong></a><br>统一管理 AI 模型与订阅<br>集中配置网关与模型路由<br><code>latest</code> · <a href="https://usemagpie.ai">官网</a></td>
 </tr>
