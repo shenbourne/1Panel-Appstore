@@ -18,6 +18,10 @@ def validate():
     for target in re.findall(r'(?:href|src)="([^"]+)"', readme):
         if not target.startswith(("https://", "#")):
             assert (ROOT / target).is_file(), target
+    app_icons = re.findall(r'<img src="(apps/[^"]+/logo\.png)"[^>]*>', readme)
+    assert len(app_icons) == len(apps), "README application icon count differs from catalog"
+    assert all(re.search(r'<img src="' + re.escape(icon) + r'" height="64"', readme)
+               for icon in app_icons), "README application icons must all have height 64"
     catalog = load(ROOT / "data.yaml")["additionalProperties"]
     tags = {tag["key"] for tag in catalog["tags"]}
     apps = (ROOT / "apps.txt").read_text(encoding="utf-8").splitlines()

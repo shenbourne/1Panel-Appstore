@@ -26,13 +26,13 @@
 
 <table>
 <tr>
-<td align="center" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" width="64" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>mihomo 代理与 metacubexd 面板<br><code>1.19.31</code></td>
-<td align="center" width="33%"><a href="apps/docker-proxy/README.md"><img src="apps/docker-proxy/logo.png" width="64" height="64" alt="Docker Proxy"><br><strong>Docker Proxy</strong></a><br>Docker 镜像加速与管理<br><code>latest</code></td>
-<td align="center" width="33%"><a href="apps/magpie/README.md"><img src="apps/magpie/logo.png" width="64" height="64" alt="Magpie"><br><strong>Magpie</strong></a><br>AI 模型网关与订阅管理<br><code>latest</code></td>
+<td align="center" width="33%"><a href="apps/clash-meta/README.md"><img src="apps/clash-meta/logo.png" height="64" alt="Clash Meta"><br><strong>Clash Meta</strong></a><br>mihomo 代理与 metacubexd 面板<br><code>1.19.31</code></td>
+<td align="center" width="33%"><a href="apps/docker-proxy/README.md"><img src="apps/docker-proxy/logo.png" height="64" alt="Docker Proxy"><br><strong>Docker Proxy</strong></a><br>Docker 镜像加速与管理<br><code>latest</code></td>
+<td align="center" width="33%"><a href="apps/magpie/README.md"><img src="apps/magpie/logo.png" height="64" alt="Magpie"><br><strong>Magpie</strong></a><br>AI 模型网关与订阅管理<br><code>latest</code></td>
 </tr>
 <tr>
-<td align="center"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" width="64" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>CalDAV 日历与 CardDAV 通讯录<br><code>3.0.0</code></td>
-<td align="center"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" width="64" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>内网穿透与远程访问<br><code>1.0.0</code></td>
+<td align="center"><a href="apps/radicale/README.md"><img src="apps/radicale/logo.png" height="64" alt="Radicale"><br><strong>Radicale</strong></a><br>CalDAV 日历与 CardDAV 通讯录<br><code>3.0.0</code></td>
+<td align="center"><a href="apps/sakura-frp/README.md"><img src="apps/sakura-frp/logo.png" height="64" alt="Sakura Frp"><br><strong>Sakura Frp</strong></a><br>内网穿透与远程访问<br><code>1.0.0</code></td>
 <td align="center"><a href="https://github.com/shenbourne/1panel-appstore/issues"><strong>推荐下一个应用</strong></a><br>提交应用来源与部署需求</td>
 </tr>
 </table>
