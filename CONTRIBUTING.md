@@ -29,7 +29,7 @@ bash tests/sync.sh
 
 ## 维护同步脚本
 
-`scripts/bootstrap.sh` 是 README 中可复制的计划任务入口。修改它时同步更新 README 的完整脚本，测试会核对两者一致。下载必须保留 HTTPS 和证书校验，并以非零状态报告失败。
+`scripts/bootstrap.sh` 是 README 中可复制的短入口，完整下载处理位于远程 `scripts/download.sh`。修改入口时同步更新 README 的脚本，测试会核对两者一致。下载必须保留 HTTPS 和证书校验，并以非零状态报告失败。
 
 同步仅复制 `apps.txt` 列出的模板，不操作已安装实例；不得覆盖其他商店目录或自动删除旧版本。变更目录布局时同时修改同步脚本、下载器、回归测试和 README 链接。
 

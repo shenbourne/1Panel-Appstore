@@ -26,13 +26,17 @@ bash "$root/scripts/sync.sh" > "$scratch/second.log"
 grep -q 'Unchanged: clash-meta' "$scratch/second.log"
 export LOCAL_APPS_DIR="$scratch/rejected"
 mkdir -p "$LOCAL_APPS_DIR"
-ln -s "$scratch/local/magpie" "$LOCAL_APPS_DIR/magpie"
-if bash "$root/scripts/sync.sh" > "$scratch/rejected.log" 2>&1; then
-    echo "Symlink target was incorrectly accepted" >&2
-    exit 1
+if ln -s "$scratch/local/magpie" "$LOCAL_APPS_DIR/magpie" 2>/dev/null && [[ -L "$LOCAL_APPS_DIR/magpie" ]]; then
+    if bash "$root/scripts/sync.sh" > "$scratch/rejected.log" 2>&1; then
+        echo "Symlink target was incorrectly accepted" >&2
+        exit 1
+    fi
+    grep -q 'Target is a symlink' "$scratch/rejected.log"
+    test ! -e "$LOCAL_APPS_DIR/clash-meta"
+else
+    echo "SKIP: symbolic links are unavailable on this filesystem" >&2
+    rm -rf -- "$LOCAL_APPS_DIR/magpie"
 fi
-grep -q 'Target is a symlink' "$scratch/rejected.log"
-test ! -e "$LOCAL_APPS_DIR/clash-meta"
 
 # Exercise the downloader without network access by replacing curl with a fixture.
 mkdir -p "$scratch/archive/1Panel-Appstore-main" "$scratch/bin"
@@ -59,7 +63,7 @@ while IFS= read -r app; do
     cmp "$root/apps/$app/data.yml" "$scratch/installer-local/$app/data.yml"
 done < "$root/apps.txt"
 
-# Bootstrap delegates retries to curl; failed transfers must never execute a script.
+# The short bootstrap must not execute a failed download.
 cat > "$scratch/bin/curl" <<'SH'
 #!/usr/bin/env bash
 set -e
@@ -67,19 +71,10 @@ count=0
 [[ ! -f "$TEST_COUNT" ]] || count="$(cat "$TEST_COUNT")"
 count=$((count + 1))
 echo "$count" > "$TEST_COUNT"
-[[ " $* " = *" --retry 2 "* && " $* " = *" --retry-all-errors "* ]] || exit 2
+[[ " $* " = *" -fsSL "* ]] || exit 2
 [[ "${TEST_FAIL_ALL:-}" != 1 ]] || exit 56
-while [[ $# -gt 0 ]]; do
-    if [[ "$1" = --output ]]; then
-        printf '#!/usr/bin/env bash\nprintf ok > "$TEST_MARKER"\n' > "$2"
-        exit
-    fi
-    shift
-done
-exit 1
+printf '#!/usr/bin/env bash\nprintf ok > "$TEST_MARKER"\n'
 SH
-printf '#!/usr/bin/env bash\nexit 0\n' > "$scratch/bin/sleep"
-chmod +x "$scratch/bin/sleep"
 PATH="$scratch/bin:$PATH" TEST_COUNT="$scratch/count" TEST_MARKER="$scratch/marker" \
     bash "$root/scripts/bootstrap.sh"
 test "$(cat "$scratch/count")" -eq 1

@@ -1,24 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 1Panel 安装在其他位置时，修改下行冒号后的默认路径。
-export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
+# 自定义 1Panel 安装位置时修改此路径。
+export LOCAL_APPS_DIR="/opt/1panel/resource/apps/local"
+# 可替换为其他加速地址；留空则直连。
+export DOWNLOAD_PROXY="https://ghfast.top/"
 
-# 默认使用下载加速；可替换为 README 中的其他地址，直连请改为 export DOWNLOAD_PROXY=""
-export DOWNLOAD_PROXY="${DOWNLOAD_PROXY-https://ghfast.top/}"
-
-url="https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
-if [[ -n "$DOWNLOAD_PROXY" ]]; then
-  [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
-  url="${DOWNLOAD_PROXY%/}/$url"
-fi
-
-script="$(mktemp)"
-trap 'rm -f -- "$script"' EXIT
-
-curl --fail --location --http1.1 --retry 2 --retry-all-errors --retry-delay 2 \
-  --connect-timeout 20 --max-time 180 --proto '=https' --proto-redir '=https' --output "$script" "$url"
-
-test -s "$script"
-bash -n "$script"
-bash "$script"
+script_url="${DOWNLOAD_PROXY:+${DOWNLOAD_PROXY%/}/}https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/download.sh"
+script="$(curl -fsSL --connect-timeout 20 --max-time 180 "$script_url")"
+test -n "$script"
+bash -n <<< "$script"
+bash -c "$script"

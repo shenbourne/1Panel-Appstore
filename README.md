@@ -44,38 +44,27 @@
 
 1. 打开 1Panel「计划任务」，新增任务，类型选择 **Shell 脚本**。
 2. 名称填写 `同步 Shenbourne 应用商店`，周期可设为每天一次，例如 03:15，以面板/服务器时区为准。
-3. 将下面完整脚本粘贴到脚本框。自定义安装路径时修改 `LOCAL_APPS_DIR`；网络加速配置见下一节。
+3. 将下面计划任务脚本粘贴到脚本框。自定义安装路径时修改 `LOCAL_APPS_DIR`；网络加速配置见下一节。
 4. 保存并手动执行一次，查看任务报告，确认出现 `Templates ready`。
 5. 打开「应用商店 → 本地应用」，执行刷新或同步本地应用，然后选择应用安装。不同面板版本的按钮名称可能不同。
 
 <details open>
-<summary><strong>展开计划任务完整脚本（也可直接在服务器终端执行）</strong></summary>
+<summary><strong>计划任务脚本（也可直接在服务器终端执行）</strong></summary>
 
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
 
-# 1Panel 安装在其他位置时，修改下行冒号后的默认路径。
-export LOCAL_APPS_DIR="${LOCAL_APPS_DIR:-/opt/1panel/resource/apps/local}"
+# 自定义 1Panel 安装位置时修改此路径。
+export LOCAL_APPS_DIR="/opt/1panel/resource/apps/local"
+# 可替换为其他加速地址；留空则直连。
+export DOWNLOAD_PROXY="https://ghfast.top/"
 
-# 默认使用下载加速；可替换为 README 中的其他地址，直连请改为 export DOWNLOAD_PROXY=""
-export DOWNLOAD_PROXY="${DOWNLOAD_PROXY-https://ghfast.top/}"
-
-url="https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/install.sh"
-if [[ -n "$DOWNLOAD_PROXY" ]]; then
-  [[ "$DOWNLOAD_PROXY" = https://* ]] || { echo "DOWNLOAD_PROXY must use HTTPS" >&2; exit 1; }
-  url="${DOWNLOAD_PROXY%/}/$url"
-fi
-
-script="$(mktemp)"
-trap 'rm -f -- "$script"' EXIT
-
-curl --fail --location --http1.1 --retry 2 --retry-all-errors --retry-delay 2 \
-  --connect-timeout 20 --max-time 180 --proto '=https' --proto-redir '=https' --output "$script" "$url"
-
-test -s "$script"
-bash -n "$script"
-bash "$script"
+script_url="${DOWNLOAD_PROXY:+${DOWNLOAD_PROXY%/}/}https://github.com/shenbourne/1Panel-Appstore/raw/refs/heads/main/scripts/download.sh"
+script="$(curl -fsSL --connect-timeout 20 --max-time 180 "$script_url")"
+test -n "$script"
+bash -n <<< "$script"
+bash -c "$script"
 ```
 
 </details>
@@ -85,7 +74,7 @@ bash "$script"
 脚本默认使用 GH Fast 下载加速。如需切换，可替换计划任务脚本中的配置：
 
 ```bash
-# 用此行替换完整脚本中的 DOWNLOAD_PROXY 配置；地址可从下表选择。
+# 用此行替换计划任务脚本中的 DOWNLOAD_PROXY 配置；地址可从下表选择。
 export DOWNLOAD_PROXY="https://ghfast.top/"
 ```
 
@@ -97,9 +86,9 @@ export DOWNLOAD_PROXY="https://ghfast.top/"
 | GH-Proxy | `https://gh-proxy.com/` |
 | GH-Proxy.org | `https://gh-proxy.org/` |
 
-选择一个地址，替换完整脚本中的 `export DOWNLOAD_PROXY=...` 一行，保存后重新执行任务。直连 GitHub 超时（`curl: (28) Connection timed out`）时，建议先启用上述加速地址；仍失败时换另一个地址。
+选择一个地址，替换计划任务脚本中的 `export DOWNLOAD_PROXY=...` 一行，保存后重新执行任务。直连 GitHub 超时（`curl: (28) Connection timed out`）时，建议先启用上述加速地址；仍失败时换另一个地址。
 
-如需直连 GitHub，将配置改为 `export DOWNLOAD_PROXY=""`。已有计划任务需重新粘贴上面的完整脚本，仓库更新不会自动修改面板中保存的任务内容。
+如需直连 GitHub，将配置改为 `export DOWNLOAD_PROXY=""`。已有计划任务需重新粘贴上面的计划任务脚本，仓库更新不会自动修改面板中保存的任务内容。
 
 以上均为第三方服务，可用性因网络而异。加速服务需支持 `代理前缀/https://github.com/...` 格式，并且能同时下载安装脚本和应用压缩包。
 

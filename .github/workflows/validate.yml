@@ -19,5 +19,5 @@ jobs:
         run: python -m unittest discover -s tests -p test_merge_duplicates.py
       - name: Verify scripts and import behavior
         run: |
-          bash -n scripts/sync.sh scripts/install.sh scripts/bootstrap.sh tests/sync.sh
+          bash -n scripts/sync.sh scripts/install.sh scripts/bootstrap.sh scripts/download.sh tests/sync.sh
           bash tests/sync.sh
