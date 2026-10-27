@@ -8,19 +8,13 @@
   <img src="https://img.shields.io/badge/Apps-8-0f766e" alt="8 个应用">
 </p>
 
-<p align="center"><a href="#应用一览">应用一览</a> · <a href="#添加到-1panel-计划任务">计划任务</a> · <a href="#网络与加速">网络与加速</a> · <a href="#目录与规范">目录规范</a> · <a href="CONTRIBUTING.md">贡献应用</a></p>
+<p align="center"><a href="#应用一览">应用一览</a> · <a href="#添加到-1panel-计划任务">计划任务</a> · <a href="#网络与加速">网络与加速</a> · <a href="CONTRIBUTING.md">贡献应用</a></p>
 
 ---
 
-## 关于商店
+## 简介
 
-本仓库遵循 [1Panel 官方应用商店](https://github.com/1Panel-dev/appstore) 的应用包结构，将应用集中放在 `apps/` 中，并提供本地应用导入脚本。仓库首页的组织方式参考 [okxlin/appstore](https://github.com/okxlin/appstore) 和 [arch3rPro/1Panel-Appstore](https://github.com/arch3rPro/1Panel-Appstore)。
-
-- **集中管理**：应用元数据、安装表单、Compose 和使用说明随模板一起维护。
-- **自动同步**：通过 1Panel Shell 计划任务下载并导入模板，支持重试和可选下载代理。
-- **备份可查**：覆盖同名模板前保存备份，保留其他商店的应用和目标目录中的额外文件。
-
-这是独立第三方项目，与 1Panel 官方无隶属关系。只同步模板文件；安装、容器升级和数据备份仍由管理员在面板中操作。
+收录实用的自托管应用，通过计划任务导入 1Panel，在本地应用商店中选择安装。每个应用提供独立的使用说明，方便查看配置与部署方法。
 
 ## 应用一览
 
@@ -42,13 +36,9 @@
 </tr>
 </table>
 
-版本是模板目录名，实际镜像以对应 `docker-compose.yml` 为准。`latest`、`stable` 等标签的镜像内容会随上游变化；模板版本不代表已锁定镜像版本。
-
 ## 使用前准备
 
-服务器需安装 1Panel 和 Docker，并具备 Bash、curl、tar、`flock`（通常来自 util-linux）、coreutils、diffutils、findutils 和 grep。压缩包导入不依赖 Git。
-
-默认模板目录为 `/opt/1panel/resource/apps/local`；自定义安装路径时，修改脚本中的 `LOCAL_APPS_DIR`。使用有权写入目录的账户执行。需要 `1panel-network` 的应用可先通过 `docker network inspect 1panel-network` 检查网络。
+已安装 1Panel 和 Docker。默认本地应用目录为 `/opt/1panel/resource/apps/local`，自定义安装路径时请修改脚本中的 `LOCAL_APPS_DIR`。
 
 ## 添加到 1Panel 计划任务
 
@@ -96,38 +86,15 @@ exit 1
 
 </details>
 
-启动脚本先下载到临时文件，下载成功且语法检查通过后才执行；失败会返回非零状态。安装器再下载源码压缩包，验证归档结构并同步 `apps/` 中的模板。整个流程保留 TLS 校验，并分别锁定下载和同步阶段。
-
-每次任务都会读取最新脚本与 `main` 分支模板。同步不会自动刷新面板数据库；若界面未更新，请手动刷新本地应用，也不会自动升级已安装容器。
-
 ## 网络与加速
 
-遇到 `GnuTLS recv error (-110)`、TLS 中断或 GitHub 连接超时时，先检查服务器网络、DNS 和代理。本仓库默认使用压缩包下载，启动脚本和源码下载均有重试及官方备用入口，不再要求计划任务执行 `git clone`。
-
-如果需要使用可信的 GitHub 下载代理，在计划任务脚本开头把代理变量这一行改为：
+GitHub 下载超时或连接失败时，可在计划任务脚本中设置下载代理：
 
 ```bash
 export DOWNLOAD_PROXY="https://你的代理地址/"
 ```
 
-代理需支持 `代理前缀/https://github.com/...` 形式。配置后，**启动脚本与源码压缩包均走同一代理**。例如参考商店使用过 `https://ghfast.top/`；它属于第三方服务，本项目不保证其当前可用性或内容完整性，请自行选择可信服务。不要关闭 TLS 证书验证。
-
-旧的 `curl ... | bash` 或 Git 克隆任务请替换为上面的完整脚本；旧任务文本不会随仓库更新自动改变。此前创建的 `bootstrap` Git 目录不再用于新流程，无需为迁移删除它。
-
-## 同步、备份与回滚
-
-| 行为 | 说明 |
-| --- | --- |
-| 导入范围 | 仅导入 `apps.txt` 列出的 `apps/<应用标识>/` |
-| 备份位置 | `STORE_DIR/backups/<时间>-<随机后缀>/` |
-| 同名模板 | 覆盖前备份，避免丢失本地自定义内容 |
-| 其他商店 | 保留其他应用目录 |
-| 额外文件与旧版本 | 保留，不自动清理 |
-| 已安装实例 | 不修改容器、运行配置和数据卷 |
-
-默认 `STORE_DIR` 为 `/opt/1panel-third-party/shenbourne`。备份由管理员定期整理。下载或校验失败时不会导入模板；复制期间发生磁盘或权限错误可能留下部分更新，应根据任务日志和备份恢复。
-
-回滚模板前暂停计划任务，再把备份中的对应应用目录复制回实际本地应用目录并刷新本地应用。模板回滚不会回滚已升级容器或业务数据。
+代理需支持 `代理前缀/https://github.com/...` 格式。保存后重新执行任务。
 
 ## 手动导入与停止同步
 
@@ -135,43 +102,6 @@ export DOWNLOAD_PROXY="https://你的代理地址/"
 
 停止同步只需禁用或删除计划任务。移除模板前请先备份，再移除本仓库对应目录；已安装实例通过面板单独管理。
 
-## 目录与规范
+## 贡献与反馈
 
-```text
-.
-├── apps/                       # 可导入的应用模板
-│   └── <app-key>/
-│       ├── data.yml            # additionalProperties 应用元数据
-│       ├── logo.png
-│       ├── README.md
-│       ├── README_en.md
-│       └── <version>/          # 版本号不加 v 前缀
-│           ├── data.yml        # additionalProperties.formFields
-│           ├── docker-compose.yml
-│           └── data/           # 可选挂载文件
-├── data.yaml                   # 商店分类和目录版本
-├── apps.txt                    # 本仓库同步脚本使用的应用清单
-├── scripts/                    # 下载、同步与规范检查
-├── tests/                      # 导入与下载回归验证
-└── .github/workflows/          # GitHub Actions
-```
-
-`apps.txt` 是本仓库同步工具的清单，不是官方要求的应用包文件。根目录 `data.yaml` 用于描述商店分类，脚本只导入应用目录，不覆盖 1Panel 官方商店的元数据，也不将本仓库宣称为官方商店接口。
-
-贡献应用前请阅读 [贡献指南](CONTRIBUTING.md)，并运行：
-
-```bash
-python -m pip install PyYAML==6.0.3
-python scripts/validate.py
-bash tests/sync.sh
-```
-
-自动检查覆盖目录、元数据、中英文安装表单、Compose 变量与参数对应关系，以及下载、备份和导入行为。真实 1Panel 导入、计划任务和各应用启动仍需在服务器上验证。
-
-## 参考与反馈
-
-- [1Panel 官方应用商店](https://github.com/1Panel-dev/appstore) · [应用提交规范](https://github.com/1Panel-dev/appstore/wiki/How-to-submit-your-own-application)
-- [okxlin/appstore](https://github.com/okxlin/appstore) · [arch3rPro/1Panel-Appstore](https://github.com/arch3rPro/1Panel-Appstore)
-- [提交问题或应用建议](https://github.com/shenbourne/1Panel-Appstore/issues)
-
-应用名称、图标和容器镜像归各自上游所有，请遵循上游许可证与使用条款。应用配置中的权限、端口和数据目录应在安装前按实际环境确认。
+欢迎通过 [Issues](https://github.com/shenbourne/1Panel-Appstore/issues) 推荐应用或反馈问题，也可以提交 PR 添加应用。应用包要求和维护说明见 [贡献指南](CONTRIBUTING.md)。
