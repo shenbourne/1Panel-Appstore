@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml"><img src="https://github.com/shenbourne/1Panel-Appstore/actions/workflows/validate.yml/badge.svg" alt="应用校验"></a>
   <img src="https://img.shields.io/badge/1Panel-Local%20Apps-2563eb" alt="1Panel 本地应用">
-  <img src="https://img.shields.io/badge/Apps-8-0f766e" alt="8 个应用">
+  <img src="https://img.shields.io/badge/Apps-9-0f766e" alt="9 个应用">
 </p>
 
 <p align="center"><a href="#应用一览">应用一览</a> · <a href="#添加到-1panel-计划任务">计划任务</a> · <a href="#网络与加速">网络与加速</a> · <a href="CONTRIBUTING.md">贡献应用</a></p>
@@ -32,7 +32,7 @@
 <tr>
 <td align="center" valign="top" width="33%"><a href="apps/clash-configurator/README.md"><img src="apps/clash-configurator/logo.png" height="64" alt="Clash-Configurator"><br><strong>Clash-Configurator</strong></a><br>可视化编辑代理配置<br>管理节点、分组与规则集<br><code>latest</code> · <a href="https://github.com/shenbourne/Clash-Configurator">官网</a></td>
 <td align="center" valign="top" width="33%"><a href="apps/tool-nest/README.md"><img src="apps/tool-nest/logo.png" height="64" alt="Tool-Nest"><br><strong>Tool-Nest</strong></a><br>一站式开发与日常工具<br>处理文本、图片与数据<br><code>latest</code> · <a href="https://github.com/shenbourne/Tool-Nest">官网</a></td>
-<td align="center" valign="top" width="33%"><a href="https://github.com/shenbourne/1Panel-Appstore/issues"><strong>推荐下一个应用</strong></a><br>分享实用的自托管服务<br>提交应用来源与部署需求</td>
+<td align="center" valign="top" width="33%"><a href="apps/mineru/README.md"><img src="apps/mineru/logo.png" height="64" alt="MinerU"><br><strong>MinerU</strong></a><br>文档解析与 Markdown 转换<br>提取文字、表格与公式<br><code>latest</code> · <a href="https://mineru.net">官网</a></td>
 </tr>
 </table>
 

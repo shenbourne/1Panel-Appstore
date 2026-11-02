@@ -6,3 +6,4 @@ sakura-frp
 nav-site
 clash-configurator
 tool-nest
+mineru

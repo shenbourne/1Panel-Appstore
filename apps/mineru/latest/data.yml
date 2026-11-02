@@ -1,0 +1,33 @@
+additionalProperties:
+  formFields:
+  - default: 7860
+    envKey: PANEL_APP_PORT_HTTP
+    required: true
+    type: number
+    edit: true
+    labelZh: Web 界面端口
+    labelEn: Web UI port
+    label:
+      zh: Web 界面端口
+      en: Web UI port
+    rule: paramPort
+  - default: 0.0.0.0
+    envKey: MINERU_BIND_IP
+    required: true
+    type: text
+    edit: true
+    labelZh: 主机监听地址
+    labelEn: Host bind address
+    label:
+      zh: 主机监听地址
+      en: Host bind address
+  - default: '0'
+    envKey: MINERU_GPU_ID
+    required: true
+    type: text
+    edit: true
+    labelZh: NVIDIA GPU 编号
+    labelEn: NVIDIA GPU device ID
+    label:
+      zh: NVIDIA GPU 编号
+      en: NVIDIA GPU device ID

@@ -1,0 +1,31 @@
+services:
+  mineru:
+    image: windoze/mineru:latest
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    command: ["mineru-gradio", "--server-name", "0.0.0.0", "--server-port", "7860"]
+    ports:
+      - "${MINERU_BIND_IP}:${PANEL_APP_PORT_HTTP}:7860"
+    environment:
+      MINERU_MODEL_SOURCE: local
+      GRADIO_TEMP_DIR: /data/gradio
+    volumes:
+      - ./data:/data
+    ipc: host
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ["${MINERU_GPU_ID}"]
+              capabilities: [gpu]
+    networks:
+      - 1panel-network
+    labels:
+      createdBy: Apps
+networks:
+  1panel-network:
+    external: true
